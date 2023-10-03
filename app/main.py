@@ -45,19 +45,3 @@ async def get_completion(request: BloomRequest) -> Union[BloomResponse, str]:
     except Exception as e:
         logger.error(f"An error occurred while processing the request: {e}")
         return f"An error occurred while processing the request: {e}"
-    
-@app.post("get/embedding", response_model=BloomEmbeddingResponse)
-async def get_embedding(request: BloomEmbeddingRequest) -> Union[BloomEmbeddingResponse, str]:
-    try:
-        logger.info("Request received")
-        logger.info("Starting to tokenize the input")
-        inputs = tokenizer(request.text, return_tensors="pt")
-        logger.info("Tokenization done")
-        logger.info("Starting to generate the text")
-        outputs = model(**inputs)
-        logger.info("Text generated")
-        logger.info("Returning the response")
-        return BloomEmbeddingResponse(embedding=outputs[0].tolist())
-    except Exception as e:
-        logger.error(f"An error occurred while processing the request: {e}")
-        return f"An error occurred while processing the request: {e}"

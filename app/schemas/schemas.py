@@ -19,9 +19,3 @@ def check_text(cls, v):
 
 class BloomResponse(BaseModel):
     generated_text: str
-
-class BloomEmbeddingRequest(BaseModel):
-    text: str
-
-class BloomEmbeddingResponse(BaseModel):
-    embedding: List[float]
