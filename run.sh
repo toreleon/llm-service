@@ -1,6 +1,2 @@
 #!/bin/bash
-gunicorn -w ${WORKERS:=4} \
-  -b :8000 \
-  -t ${TIMEOUT:=180} \
-  -k uvicorn.workers.UvicornWorker \
-  app.main:app \
+uvicorn app.main:app --host 0.0.0.0 --port 8000

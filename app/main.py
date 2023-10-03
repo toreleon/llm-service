@@ -5,18 +5,18 @@ from typing import Union
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from fastapi import FastAPI
-from schemas import BloomRequest, BloomResponse
+from .schemas import BloomRequest, BloomResponse, BloomEmbeddingRequest, BloomEmbeddingResponse
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-
-@app.startup()
+@app.on_event("startup")
 async def startup() -> None:
     global tokenizer, model
-    # Check if cuda is not available, stop the app
+    logger.info(f"PyTorch version: {torch.__version__}")
+    logger.info(f"CUDA version: {torch.version.cuda}")
     if not torch.cuda.is_available():
         logger.error("CUDA is not available on this device, please enable it to use this service")
         sys.exit(1)
@@ -46,8 +46,8 @@ async def get_completion(request: BloomRequest) -> Union[BloomResponse, str]:
         logger.error(f"An error occurred while processing the request: {e}")
         return f"An error occurred while processing the request: {e}"
     
-@app.post("get/embedding", response_model=BloomResponse)
-async def get_embedding(request: BloomRequest) -> Union[BloomResponse, str]:
+@app.post("get/embedding", response_model=BloomEmbeddingResponse)
+async def get_embedding(request: BloomEmbeddingRequest) -> Union[BloomEmbeddingResponse, str]:
     try:
         logger.info("Request received")
         logger.info("Starting to tokenize the input")
@@ -57,7 +57,7 @@ async def get_embedding(request: BloomRequest) -> Union[BloomResponse, str]:
         outputs = model(**inputs)
         logger.info("Text generated")
         logger.info("Returning the response")
-        return BloomResponse(generated_text=outputs[0])
+        return BloomEmbeddingResponse(embedding=outputs[0].tolist())
     except Exception as e:
         logger.error(f"An error occurred while processing the request: {e}")
         return f"An error occurred while processing the request: {e}"

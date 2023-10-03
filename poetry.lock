@@ -3,7 +3,7 @@
 [[package]]
 name = "accelerate"
 version = "0.24.0.dev0"
-description = ""
+description = "Accelerate"
 optional = false
 python-versions = ">=3.8.0"
 files = []
@@ -16,6 +16,16 @@ packaging = ">=20.0"
 psutil = "*"
 pyyaml = "*"
 torch = ">=1.10.0"
+
+[package.extras]
+dev = ["bitsandbytes", "black (>=23.1,<24.0)", "datasets", "deepspeed", "evaluate", "hf-doc-builder (>=0.3.0)", "parameterized", "pytest", "pytest-subtests", "pytest-xdist", "rich", "ruff (>=0.0.241)", "scikit-learn", "scipy", "timm", "tqdm", "transformers", "urllib3 (<2.0.0)"]
+quality = ["black (>=23.1,<24.0)", "hf-doc-builder (>=0.3.0)", "ruff (>=0.0.241)", "urllib3 (<2.0.0)"]
+rich = ["rich"]
+sagemaker = ["sagemaker"]
+test-dev = ["bitsandbytes", "datasets", "deepspeed", "evaluate", "scikit-learn", "scipy", "timm", "tqdm", "transformers"]
+test-prod = ["parameterized", "pytest", "pytest-subtests", "pytest-xdist"]
+test-trackers = ["comet-ml", "tensorboard", "wandb"]
+testing = ["bitsandbytes", "datasets", "deepspeed", "evaluate", "parameterized", "pytest", "pytest-subtests", "pytest-xdist", "scikit-learn", "scipy", "timm", "tqdm", "transformers"]
 
 [package.source]
 type = "git"
@@ -969,6 +979,7 @@ files = [
 
 [package.dependencies]
 anyio = ">=3.4.0,<5"
+typing-extensions = {version = ">=3.10.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyaml"]
@@ -1279,5 +1290,5 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.10"
-content-hash = "6d63426ed0cd27cfba4ac5dda1c7bbd29793da16ff88ff4e98513c4290d76b4a"
+python-versions = "^3.9"
+content-hash = "f681d6e13e1751c8d6c65f62e3321a1865af1d8f060f172065f76b1f3c94f4aa"
