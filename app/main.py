@@ -1,4 +1,3 @@
-import os
 import sys
 import logging
 from typing import Union
@@ -16,6 +15,9 @@ app = FastAPI(
     version="0.1.0"
 )
 
+global MODEL_CARD
+MODEL_CARD = "bigscience/bloom-7b1"
+
 @app.on_event("startup")
 async def startup() -> None:
     global tokenizer, model
@@ -25,10 +27,10 @@ async def startup() -> None:
         logger.error("CUDA is not available on this device, please enable it to use this service")
         sys.exit(1)
     logger.info("Starting to load the tokenizer")
-    tokenizer = AutoTokenizer.from_pretrained(os.getenv("MODEL_CARD"))
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_CARD)
     logger.info("Tokenizer loaded")
     logger.info("Starting to load the model")
-    model = AutoModelForCausalLM.from_pretrained(os.getenv("MODEL_CARD"), load_in_4bit=True, device_map="auto")
+    model = AutoModelForCausalLM.from_pretrained(MODEL_CARD, load_in_4bit=True, device_map="auto")
     logger.info("Model loaded")
 
 @app.post("/get/completion", response_model=BloomResponse)
