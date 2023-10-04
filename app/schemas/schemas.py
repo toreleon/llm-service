@@ -11,6 +11,15 @@ class BloomRequest(BaseModel):
     diversity_penalty: Optional[float] = 0.0
     repetition_penalty: Optional[float] = 1.0
 
+class BloomResponse(BaseModel):
+    date: str
+    generated_text: str
+    prompt_tokens: int
+
+class BloomErrorResponse(BaseModel):
+    status: int
+    error: str
+
 @validator('text')
 def check_text(cls, v):
     if v is None:
@@ -44,7 +53,7 @@ def check_top_p(cls, v):
 @validator('top_k')
 def check_top_k(cls, v):
     if v is None:
-        raise ValueError('top_k must not be None')
+        return BloomErrorResponse(status=400, error="top_k must not be None")
     if v < 0:
         raise ValueError('top_k must be greater than 0')
     return v
@@ -56,8 +65,3 @@ def check_num_return_sequences(cls, v):
     if v < 0:
         raise ValueError('num_return_sequences must be greater than 0')
     return v
-
-class BloomResponse(BaseModel):
-    date: str
-    generated_text: str
-    prompt_tokens: int
