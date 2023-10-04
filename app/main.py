@@ -5,7 +5,7 @@ from typing import Union
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from fastapi import FastAPI
-from .schemas import BloomRequest, BloomResponse, BloomEmbeddingRequest, BloomEmbeddingResponse
+from .schemas import BloomRequest, BloomResponse
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
