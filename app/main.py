@@ -10,7 +10,11 @@ from .schemas import BloomRequest, BloomResponse, BloomEmbeddingRequest, BloomEm
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI()
+app = FastAPI(
+    title="Bloom 7b1 API",
+    description="A REST API for generating text using the Bloom 7b1 model",
+    version="0.1.0"
+)
 
 @app.on_event("startup")
 async def startup() -> None:
